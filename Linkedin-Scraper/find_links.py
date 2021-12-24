@@ -11,11 +11,6 @@ import pandas as pd
 
 #Colocando os links em uma lista para não haver duplicidade na busca
 list_links = list()
-for i in range(length_of_archive("links.txt")):
-    web_link = txt("links.txt", i)
-    list_links.append(web_link)
-    
-
 
 #criando um timer
 timer = 5
@@ -41,28 +36,18 @@ elementID.send_keys(password)
 
 elementID.submit()
 
-time.sleep(20)
+time.sleep(10)
 
-
-number_of_pages = 2
 content = list()
 content_clean = list()
-pages = 1
-while(pages <= number_of_pages):
-    if pages ==1:
-      driver.get("https://www.linkedin.com/search/results/companies/?companyHqGeo=%5B%22106057199%22%5D&industry=%5B%2244%22%5D&keywords=Transforma%C3%A7%C3%A3o%20Digital&origin=GLOBAL_SEARCH_HEADER")
-      time.sleep(5)
-      search_page = driver.find_elements_by_tag_name("a")
-      for elemento in search_page:
-        content.append(elemento.get_attribute('href'))
-        for link in content:
-            if "https://www.linkedin.com/company/" in link:
-                if link not in content_clean:
-                    content_clean.append(link)
-                    
-              
-    else:
-        driver.get(f"https://www.linkedin.com/search/results/companies/?companyHqGeo=%5B%22106057199%22%5D&industry=%5B%2244%22%5D&keywords=Transforma%C3%A7%C3%A3o%20Digital&origin=GLOBAL_SEARCH_HEADER&page={str(pages)}")
+for linha_url in range(2,length_of_archive("urls.txt")+1):
+    driver.get(txt("urls.txt",linha_url ))
+    time.sleep(10)
+    url = driver.current_url
+    number_of_pages = int(input("Digite o número de páginas de busca: "))
+    pages = 1
+    while(pages <= number_of_pages):
+        driver.get(url+f"&page={pages}")
         time.sleep(5)
         search_page = driver.find_elements_by_tag_name("a")
         for elemento in search_page:
@@ -71,38 +56,13 @@ while(pages <= number_of_pages):
                 if "https://www.linkedin.com/company/" in link:
                     if link not in content_clean:
                         content_clean.append(link)
-                        
-    pages+=1
+        print(content_clean)
+                
+        pages+=1
 
+    #Colocar no arquivo de texto
 
-#Colocar no arquivo de texto
-
-for link in content_clean:
-    if link not in list_links:
-        create_archive(link= link)
-print(content_clean,len(content_clean))    
- 
-
-
-#Obter os links de cada empresa
-# page_search = driver.find_elements_by_tag_name("a")
-
-# for elemento in page_search:
-#     content.append(elemento.get_attribute('href'))
-#     for link in content:
-#         if "https://www.linkedin.com/company/" in link:
-#             if link not in content_clean:
-#                 content_clean.append(link)
-
-
-
-
-
-
-
-
-#Clicar e obter as informações de cada empresa
-
-
-
-
+    text = txt("links.txt", length_of_archive("links.txt"))
+    for link in content_clean:
+        if link not in text:
+            create_archive(link= link)  

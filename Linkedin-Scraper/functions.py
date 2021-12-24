@@ -10,8 +10,8 @@ def read_text(name_archive, number_of_line):
     """
     file =  open(name_archive)
     lines = file.readlines()
-    return lines[number_of_line-1]
-
+    return lines[number_of_line-1] #Pega apenas o trecho da linha em específico
+    #return lines
 
 def length_of_archive(name_of_archive):
     """

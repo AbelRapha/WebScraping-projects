@@ -1,5 +1,3 @@
-from os import name
-from typing import Text
 from bs4 import BeautifulSoup
 from numpy import number
 from numpy.core import numeric
@@ -13,11 +11,11 @@ timer = 5
 
 # Acessar a home do linkedin
 option = web.ChromeOptions()
-option.headless = True
+#option.headless = True
 driver = web.Chrome(options=option)
 
 # GET na URL
-driver.get(txt("urls.txt", 1))
+driver.get(txt('urls.txt', 1))
 
 #Inserir o login e senha
 login = txt("access.txt",1)
@@ -34,7 +32,7 @@ elementID.submit()
 
 time.sleep(15)
 #Fazendo a busca automática de acordo com os filtros realizado anteriormente
-length = length_of_archive("links.txt")+1
+length = length_of_archive("links-company.txt")+1
 
 numero = 0
 
@@ -44,7 +42,7 @@ n =1
 
 for link in range(1,length, 1):
  #Começo a contar a partir da segunda linha
-    driver.get(txt("links.txt" ,link)+ "/about/",)
+    driver.get(txt("links-company.txt" ,link)+ "/about/")
     time.sleep(7)
     
     #Obtain html of page
